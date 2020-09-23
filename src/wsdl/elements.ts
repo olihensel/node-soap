@@ -235,14 +235,14 @@ export class ElementElement extends Element {
       if (ns && definitions.schemas[ns]) {
         xmlns = definitions.schemas[ns].xmlns;
       }
-
+      const fullTypeName = `${ns || 'unknown'}:${typeName}`;
       if (typeElement && !(typeName in Primitives)) {
 
-        if (!(typeName in definitions.descriptions.types)) {
+        if (!(fullTypeName in definitions.descriptions.types)) {
 
           let elem: any = {};
           if (!this.$ref) {
-            definitions.descriptions.types[typeName] = elem;
+            definitions.descriptions.types[fullTypeName] = elem;
           }
 
           const description = typeElement.description(definitions, xmlns);
@@ -265,12 +265,12 @@ export class ElementElement extends Element {
             elem.targetNamespace = ns;
           }
 
-          definitions.descriptions.types[typeName] = elem;
+          definitions.descriptions.types[fullTypeName] = elem;
         } else {
           if (this.$ref) {
-            element = definitions.descriptions.types[typeName];
+            element = definitions.descriptions.types[fullTypeName];
           } else {
-            element[name] = definitions.descriptions.types[typeName];
+            element[name] = definitions.descriptions.types[fullTypeName];
           }
         }
 
